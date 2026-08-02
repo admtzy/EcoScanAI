@@ -1,0 +1,21 @@
+EcoScan AI
+
+Overall Metrics
+----------------------
+Accuracy  : 0.8016
+Precision : 0.8053
+Recall    : 0.8016
+F1 Score  : 0.8000
+
+              precision    recall  f1-score   support
+
+   cardboard     0.9298    0.8689    0.8983        61
+       glass     0.7867    0.7763    0.7815        76
+       metal     0.7013    0.8710    0.7770        62
+       paper     0.8438    0.9000    0.8710        90
+     plastic     0.7966    0.6438    0.7121        73
+       trash     0.6842    0.6190    0.6500        21
+
+    accuracy                         0.8016       383
+   macro avg     0.7904    0.7798    0.7816       383
+weighted avg     0.8053    0.8016    0.8000       383
