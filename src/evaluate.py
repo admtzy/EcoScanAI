@@ -1,10 +1,3 @@
-"""
-=========================================================
-EcoScan AI
-Model Evaluation
-=========================================================
-"""
-
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -29,9 +22,6 @@ print("=" * 60)
 print("LOADING MODEL")
 print("=" * 60)
 
-# =====================================================
-# LOAD MODEL
-# =====================================================
 
 model = load_model(BEST_MODEL)
 
@@ -40,9 +30,6 @@ print(BEST_MODEL)
 
 print("\n")
 
-# =====================================================
-# LOAD TEST DATASET
-# =====================================================
 
 test_datagen = ImageDataGenerator(
 
@@ -74,10 +61,6 @@ print("Classes :", test_generator.class_indices)
 
 print("=" * 60)
 
-# =====================================================
-# PREDICT
-# =====================================================
-
 print("\nPredicting...")
 
 prediction = model.predict(
@@ -90,10 +73,6 @@ prediction = model.predict(
 
 print("Prediction Finished")
 
-# =====================================================
-# LABEL
-# =====================================================
-
 y_true = test_generator.classes
 
 y_pred = np.argmax(
@@ -104,9 +83,6 @@ y_pred = np.argmax(
 
 )
 
-# =====================================================
-# METRICS
-# =====================================================
 
 accuracy = accuracy_score(
 
@@ -164,10 +140,6 @@ print(f"F1 Score  : {f1:.4f}")
 
 print("=" * 60)
 
-# =====================================================
-# CONFUSION MATRIX
-# =====================================================
-
 cm = confusion_matrix(
 
     y_true,
@@ -186,9 +158,6 @@ print("=" * 60)
 
 print(cm)
 
-# =====================================================
-# CLASSIFICATION REPORT
-# =====================================================
 
 report = classification_report(
 
@@ -212,9 +181,6 @@ print("=" * 60)
 
 print(report)
 
-# =====================================================
-# SAVE REPORT
-# =====================================================
 
 report_file = REPORT_DIR / "classification_report.txt"
 

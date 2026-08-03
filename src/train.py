@@ -1,11 +1,3 @@
-"""
-=========================================================
-EcoScan AI
-Training Model (Part 3A)
-Transfer Learning MobileNetV2
-=========================================================
-"""
-
 import os
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -31,20 +23,12 @@ from config import *
 from classes import CLASS_NAMES
 
 
-# =====================================================
-# GPU INFO
-# =====================================================
-
 print("=" * 60)
 print("TensorFlow Version :", tf.__version__)
 print("=" * 60)
 
 print("GPU Available :", len(tf.config.list_physical_devices('GPU')))
 
-
-# =====================================================
-# DATA AUGMENTATION
-# =====================================================
 
 train_datagen = ImageDataGenerator(
     rescale=1./255,
@@ -64,11 +48,6 @@ validation_datagen = ImageDataGenerator(
 test_datagen = ImageDataGenerator(
     rescale=1./255
 )
-
-
-# =====================================================
-# DATASET
-# =====================================================
 
 train_generator = train_datagen.flow_from_directory(
     TRAIN_DIR,
@@ -102,20 +81,12 @@ print(train_generator.class_indices)
 print("=" * 60)
 
 
-# =====================================================
-# LOAD PRETRAINED MODEL
-# =====================================================
-
 base_model = MobileNetV2(
     weights="imagenet",
     include_top=False,
     input_shape=(224, 224, 3)
 )
 
-
-# =====================================================
-# FREEZE LAYER
-# =====================================================
 
 for layer in base_model.layers:
     layer.trainable = False
@@ -124,10 +95,6 @@ print("\n")
 print("Base Model Loaded")
 print("Frozen Layer :", len(base_model.layers))
 
-
-# =====================================================
-# BUILD MODEL
-# =====================================================
 
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
@@ -140,10 +107,6 @@ predictions = Dense(NUM_CLASSES, activation="softmax")(x)
 
 model = Model(inputs=base_model.input, outputs=predictions)
 
-
-# =====================================================
-# COMPILE
-# =====================================================
 
 model.compile(
     optimizer=Adam(learning_rate=LEARNING_RATE),
@@ -162,11 +125,6 @@ print("=" * 60)
 model.summary()
 
 
-# =====================================================
-# CALLBACKS
-# =====================================================
-
-# Membuat folder jika belum ada
 MODEL_DIR.mkdir(exist_ok=True)
 REPORT_DIR.mkdir(exist_ok=True)
 
@@ -217,10 +175,6 @@ print("Testing Dataset    :", test_generator.samples)
 print("=" * 60)
 
 
-# =====================================================
-# MODEL TRAINING
-# =====================================================
-
 print("\n")
 print("=" * 60)
 print("START TRAINING")
@@ -233,10 +187,6 @@ history = model.fit(
     callbacks=callbacks
 )
 
-
-# =====================================================
-# PLOT TRAINING HISTORY
-# =====================================================
 
 plt.figure(figsize=(10, 6))
 plt.plot(history.history["accuracy"], label="Train Accuracy")
@@ -262,11 +212,6 @@ plt.close()
 
 print("Accuracy & Loss Graph Saved")
 
-
-# =====================================================
-# PRECISION GRAPH
-# =====================================================
-
 if "precision" in history.history:
     plt.figure(figsize=(10, 6))
     plt.plot(history.history["precision"], label="Train Precision")
@@ -279,10 +224,6 @@ if "precision" in history.history:
     plt.savefig(REPORT_DIR / "precision.png")
     plt.close()
 
-
-# =====================================================
-# RECALL GRAPH
-# =====================================================
 
 if "recall" in history.history:
     plt.figure(figsize=(10, 6))
@@ -298,10 +239,6 @@ if "recall" in history.history:
 
 print("Precision & Recall Graph Saved")
 
-
-# =====================================================
-# TEST DATASET EVALUATION
-# =====================================================
 
 print("\n")
 print("=" * 60)
@@ -323,10 +260,6 @@ print(f"Precision  : {test_result[2]*100:.2f}%")
 print(f"Recall     : {test_result[3]*100:.2f}%")
 print("=" * 60)
 
-
-# =====================================================
-# SAVE FINAL MODEL & TRAINING COMPLETE
-# =====================================================
 
 model.save(FINAL_MODEL)
 
